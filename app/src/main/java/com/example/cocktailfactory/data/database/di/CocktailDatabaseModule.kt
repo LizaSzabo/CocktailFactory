@@ -1,7 +1,8 @@
-package com.example.cocktailfactory.data.database
+package com.example.cocktailfactory.data.database.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.cocktailfactory.data.database.CocktailDatabase
 import com.example.cocktailfactory.data.database.dao.CocktailDao
 import com.example.cocktailfactory.data.database.source.CocktailDataSource
 import dagger.Module

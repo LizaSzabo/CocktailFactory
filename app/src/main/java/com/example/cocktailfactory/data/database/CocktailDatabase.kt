@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.cocktailfactory.data.database.dao.CocktailDao
 import com.example.cocktailfactory.data.database.model.RoomCocktail
+import com.example.cocktailfactory.data.database.typeconverter.ArrayListConverter
 
 @Database(
     exportSchema = false,
