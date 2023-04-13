@@ -7,5 +7,10 @@ import androidx.room.PrimaryKey
 data class RoomCocktail(
     @PrimaryKey
     val id: String,
-    val name: String
+    val name: String,
+    val category: String,
+    val alcoholic: Boolean,
+    val image: String,
+    val ingredients: ArrayList<String>,
+    val instructions: String
 )
