@@ -3,26 +3,33 @@ package com.example.cocktailfactory
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.cocktailfactory.ui.theme.CocktailFactoryTheme
+import androidx.compose.ui.res.colorResource
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsScreen
+import com.example.cocktailfactory.ui.cocktailslist.CocktailsListScreen
+import com.example.cocktailfactory.ui.widgets.TopBar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            CocktailFactoryTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
+            Scaffold(
+                topBar = { TopBar() },
+                backgroundColor = colorResource(id = R.color.background_latte)
+            ) { padding ->
+                Box(modifier = Modifier.padding(padding)) {
+                    Navigation()
                 }
             }
         }
@@ -30,14 +37,19 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    CocktailFactoryTheme {
-        Greeting("Android")
+fun Navigation() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "main") {
+        composable("main") {
+            CocktailsListScreen(navController = navController)
+        }
+        composable(
+            "details/{cocktailName}",
+            arguments = listOf(navArgument("cocktailName") { type = NavType.StringType })
+        ) { backStackEntry ->
+            backStackEntry.arguments?.getString("cocktailName")?.let { cocktailName ->
+                CocktailDetailsScreen(cocktailName = cocktailName)
+            }
+        }
     }
 }
