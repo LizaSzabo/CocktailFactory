@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.cocktailfactory.domain.model.CocktailPresentationModel
 import com.example.cocktailfactory.ui.cocktailslist.CocktailsListUiState.CocktailsListReady
 import com.example.cocktailfactory.ui.cocktailslist.CocktailsListUiState.Error
@@ -22,7 +23,7 @@ import com.example.cocktailfactory.ui.widgets.CocktailsList
 import com.example.cocktailfactory.ui.widgets.SearchView
 
 @Composable
-fun CocktailsListScreen(viewModel: CocktailsListViewModel = hiltViewModel()) {
+fun CocktailsListScreen(navController: NavController, viewModel: CocktailsListViewModel = hiltViewModel()) {
     val uiState: CocktailsListUiState by viewModel.uiState.collectAsState(Loading)
 
     when (uiState) {
@@ -37,7 +38,7 @@ fun CocktailsListScreen(viewModel: CocktailsListViewModel = hiltViewModel()) {
             }
         }
         is CocktailsListReady -> {
-            CocktailsListScreenContent()
+            CocktailsListScreenContent(navController)
         }
         is Error -> {
             CocktailsListErrorContent()
@@ -46,11 +47,14 @@ fun CocktailsListScreen(viewModel: CocktailsListViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun CocktailsListScreenContent() {
+fun CocktailsListScreenContent(navController: NavController) {
     val textState = remember { mutableStateOf(TextFieldValue("")) }
     Column {
         SearchView(textState)
-        CocktailsList(arrayListOf(CocktailPresentationModel("id", "name", "category", true, "image", mutableListOf(), "instructions")))
+        CocktailsList(
+            navController,
+            arrayListOf(CocktailPresentationModel("id", "name", "category", "Alcoholic", "image", mutableListOf(), "instructions"))
+        )
     }
 }
 

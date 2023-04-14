@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CocktailFactory</string>
+    <string name="cocktail_image_description">Cocktail image</string>
 </resources>

@@ -6,15 +6,24 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.example.cocktailfactory.domain.model.CocktailPresentationModel
 
 @Composable
-fun CocktailsList(cocktails: ArrayList<CocktailPresentationModel>) {
+fun CocktailsList(navController: NavController, cocktails: ArrayList<CocktailPresentationModel>) {
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         items(cocktails) { cocktail ->
             CocktailListItemView(
                 cocktailName = cocktail.name,
-                onItemClick = {}
+                onItemClick = { selectedCocktail ->
+                    navController.navigate("details/$selectedCocktail") {
+                        popUpTo("main") {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
             )
         }
     }
@@ -23,5 +32,5 @@ fun CocktailsList(cocktails: ArrayList<CocktailPresentationModel>) {
 @Preview(showBackground = true)
 @Composable
 fun CountryListPreview() {
-    CocktailsList(arrayListOf(CocktailPresentationModel("id", "name", "category", true, "image", mutableListOf(), "instructions")))
+    // CocktailsList(NavController(Context), arrayListOf(CocktailPresentationModel("id", "name", "category", true, "image", mutableListOf(), "instructions")))
 }

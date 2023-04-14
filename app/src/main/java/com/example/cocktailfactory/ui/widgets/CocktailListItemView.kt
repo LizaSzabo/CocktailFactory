@@ -22,7 +22,7 @@ fun CocktailListItemView(cocktailName: String, onItemClick: (String) -> Unit) {
     Row(
         modifier = Modifier
             .clickable(onClick = { onItemClick(cocktailName) })
-            .background(colorResource(id = R.color.purple_500))
+            .background(colorResource(id = R.color.dark_latte))
             .height(57.dp)
             .fillMaxWidth()
             .padding(PaddingValues(8.dp, 16.dp))

@@ -23,7 +23,7 @@ class CocktailsListViewModel @Inject constructor(
 
     fun getCocktails() {
         viewModelScope.launch(Dispatchers.IO) {
-            val mockList = arrayListOf(CocktailPresentationModel("id", "name", "category", true, "image", mutableListOf(), "instructions"))
+            val mockList = arrayListOf(CocktailPresentationModel("id", "name", "category", "Alcoholic", "image", mutableListOf(), "instructions"))
             _uiState.emit(CocktailsListUiState.CocktailsListReady(mockList))
         }
     }

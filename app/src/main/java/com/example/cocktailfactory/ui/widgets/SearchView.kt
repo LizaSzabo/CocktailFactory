@@ -34,7 +34,7 @@ fun SearchView(state: MutableState<TextFieldValue>) {
         },
         modifier = Modifier
             .fillMaxWidth(),
-        textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
+        textStyle = TextStyle(color = Color.DarkGray, fontSize = 18.sp),
         leadingIcon = {
             Icon(
                 Icons.Default.Search,
@@ -65,11 +65,11 @@ fun SearchView(state: MutableState<TextFieldValue>) {
         singleLine = true,
         shape = RectangleShape,
         colors = TextFieldDefaults.textFieldColors(
-            textColor = Color.White,
+            textColor = Color.DarkGray,
             cursorColor = Color.White,
-            leadingIconColor = Color.White,
-            trailingIconColor = Color.White,
-            backgroundColor = colorResource(id = R.color.purple_200),
+            leadingIconColor = Color.DarkGray,
+            trailingIconColor = Color.DarkGray,
+            backgroundColor = colorResource(id = R.color.latte),
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
