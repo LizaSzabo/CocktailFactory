@@ -9,7 +9,7 @@ data class RoomCocktail(
     val id: String,
     val name: String,
     val category: String,
-    val alcoholic: Boolean,
+    val alcoholic: String,
     val image: String,
     val ingredients: ArrayList<String>,
     val instructions: String

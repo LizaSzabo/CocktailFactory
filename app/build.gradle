@@ -85,6 +85,9 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
+    // RainbowCake
+    def rainbow_cake_version = '1.6.0'
+    implementation "co.zsmb:rainbow-cake-core:$rainbow_cake_version"
 
     ktlint "com.pinterest:ktlint:0.47.1"
 }
