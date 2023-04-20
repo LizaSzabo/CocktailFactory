@@ -1,6 +1,5 @@
 package com.example.cocktailfactory.domain.interactors
 
-import android.util.Log
 import com.example.cocktailfactory.data.database.source.CocktailDataSource
 import com.example.cocktailfactory.data.network.source.CocktailNetworkDataSource
 import com.example.cocktailfactory.domain.model.CocktailPresentationModel
@@ -12,7 +11,6 @@ class CocktailInteractor @Inject constructor(
 ) {
     suspend fun getCocktails(): List<CocktailPresentationModel> {
         val cocktail = cocktailNetworkDataSource.getCocktail()
-        Log.i("cocktail: ", cocktail.toString())
         return emptyList()
     }
 
