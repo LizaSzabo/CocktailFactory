@@ -10,7 +10,7 @@ class CocktailInteractor @Inject constructor(
     private val cocktailNetworkDataSource: CocktailNetworkDataSource
 ) {
     suspend fun getCocktails(): List<CocktailPresentationModel> {
-        val cocktail = cocktailNetworkDataSource.getCocktail()
+        val cocktails = cocktailNetworkDataSource.getCocktails()
         return emptyList()
     }
 
