@@ -32,4 +32,15 @@ class CocktailDetailsViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteCocktail(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val successful = cocktailInteractor.deleteCocktail(id)
+            if (!successful) {
+                _uiState.emit(Error("Could not delete cocktail!"))
+            } else {
+                // TODO: Success event
+            }
+        }
+    }
 }

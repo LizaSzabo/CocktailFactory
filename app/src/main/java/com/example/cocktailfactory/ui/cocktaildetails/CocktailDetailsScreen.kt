@@ -4,8 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.cocktailfactory.R
@@ -44,7 +48,8 @@ fun CocktailDetailsScreen(cocktailId: String, viewModel: CocktailDetailsViewMode
         }
         is CocktailDataReady -> {
             CocktailDetailsScreenContent(
-                (uiState as CocktailDataReady).cocktail
+                (uiState as CocktailDataReady).cocktail,
+                viewModel::deleteCocktail
             )
         }
         is Error -> {
@@ -54,7 +59,7 @@ fun CocktailDetailsScreen(cocktailId: String, viewModel: CocktailDetailsViewMode
 }
 
 @Composable
-fun CocktailDetailsScreenContent(cocktail: CocktailPresentationModel) {
+fun CocktailDetailsScreenContent(cocktail: CocktailPresentationModel, deleteCocktail: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -107,13 +112,21 @@ fun CocktailDetailsScreenContent(cocktail: CocktailPresentationModel) {
             textAlign = TextAlign.Start,
             fontSize = 22.sp
         )
+        Row {
+            Button(
+                onClick = { deleteCocktail(cocktail.id) },
+                modifier = Modifier.padding(12.dp)
+            ) {
+                Text(text = "Delete", modifier = Modifier.padding(4.dp))
+            }
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DetailsScreenPreview() {
-    CocktailDetailsScreenContent(CocktailPresentationModel("id", "name", "category", "Alcoholic", "image", mutableListOf(), "instructions"))
+    // CocktailDetailsScreenContent(CocktailPresentationModel("id", "name", "category", "Alcoholic", "image", mutableListOf(), "instructions"))
 }
 
 @Composable

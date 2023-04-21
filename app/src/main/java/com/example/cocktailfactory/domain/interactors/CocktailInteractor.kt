@@ -39,4 +39,10 @@ class CocktailInteractor @Inject constructor(
         val roomModelCocktail = cocktailDataSource.getCocktailFromDb(id)
         return roomModelCocktail?.toPresentationModelCocktail()
     }
+
+    fun deleteCocktail(id: String): Boolean {
+        cocktailDataSource.deleteCocktailFromDb(id)
+        val roomModelCocktail = cocktailDataSource.getCocktailFromDb(id)
+        return (roomModelCocktail == null)
+    }
 }
