@@ -73,6 +73,8 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:2.44"
+    kaptAndroidTest "com.google.dagger:hilt-compiler:2.44"
 
     //Retrofit2
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
