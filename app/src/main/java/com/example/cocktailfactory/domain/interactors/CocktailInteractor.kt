@@ -45,4 +45,8 @@ class CocktailInteractor @Inject constructor(
         val roomModelCocktail = cocktailDataSource.getCocktailFromDb(id)
         return (roomModelCocktail == null)
     }
+
+    fun updateCocktail(updatedCocktail: CocktailPresentationModel) {
+        cocktailDataSource.saveCocktailToDb(updatedCocktail.toCocktailRoomModel())
+    }
 }

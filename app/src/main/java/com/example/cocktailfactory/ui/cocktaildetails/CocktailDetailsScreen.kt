@@ -28,9 +28,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.cocktailfactory.R
 import com.example.cocktailfactory.domain.model.CocktailPresentationModel
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailDataReady
+import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailEditing
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Error
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Loading
-import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailEditing
 
 @Composable
 fun CocktailDetailsScreen(cocktailId: String, viewModel: CocktailDetailsViewModel = hiltViewModel()) {
@@ -51,13 +51,13 @@ fun CocktailDetailsScreen(cocktailId: String, viewModel: CocktailDetailsViewMode
             CocktailDetailsScreenContent(
                 (uiState as CocktailDataReady).cocktail,
                 viewModel::deleteCocktail,
-                viewModel::editCocktail,
+                viewModel::editCocktail
             )
         }
         is CocktailEditing -> CocktailDetailsEditingContent(
             (uiState as CocktailEditing).cocktail,
             viewModel::cancelUpdate,
-            viewModel::updateCocktail,
+            viewModel::updateCocktail
         )
         is Error -> {
             CocktailDetailsErrorContent((uiState as Error).errorMessage)
@@ -66,7 +66,7 @@ fun CocktailDetailsScreen(cocktailId: String, viewModel: CocktailDetailsViewMode
 }
 
 @Composable
-fun CocktailDetailsScreenContent(cocktail: CocktailPresentationModel, deleteCocktail: (String) -> Unit) {
+fun CocktailDetailsScreenContent(cocktail: CocktailPresentationModel, deleteCocktail: (String) -> Unit, editCocktail: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -126,10 +126,15 @@ fun CocktailDetailsScreenContent(cocktail: CocktailPresentationModel, deleteCock
             ) {
                 Text(text = "Delete", modifier = Modifier.padding(4.dp))
             }
+            Button(
+                onClick = { editCocktail() },
+                modifier = Modifier.padding(12.dp)
+            ) {
+                Text(text = "Edit", modifier = Modifier.padding(4.dp))
+            }
         }
     }
 }
-
 
 @Composable
 fun CocktailDetailsEditingContent(
@@ -191,10 +196,28 @@ fun CocktailDetailsEditingContent(
         )
         Row {
             Button(
-                onClick = { cancelUpdate },
+                onClick = { cancelUpdate() },
                 modifier = Modifier.padding(12.dp)
             ) {
                 Text(text = "Cancel", modifier = Modifier.padding(4.dp))
+            }
+            Button(
+                onClick = {
+                    updateCocktail(
+                        CocktailPresentationModel(
+                            "id",
+                            "name",
+                            "category",
+                            "Alcoholic",
+                            "image",
+                            mutableListOf(),
+                            "instructions"
+                        )
+                    )
+                },
+                modifier = Modifier.padding(12.dp)
+            ) {
+                Text(text = "Update", modifier = Modifier.padding(4.dp))
             }
         }
     }
