@@ -30,6 +30,7 @@ import com.example.cocktailfactory.domain.model.CocktailPresentationModel
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailDataReady
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Error
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Loading
+import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailEditing
 
 @Composable
 fun CocktailDetailsScreen(cocktailId: String, viewModel: CocktailDetailsViewModel = hiltViewModel()) {
@@ -49,9 +50,15 @@ fun CocktailDetailsScreen(cocktailId: String, viewModel: CocktailDetailsViewMode
         is CocktailDataReady -> {
             CocktailDetailsScreenContent(
                 (uiState as CocktailDataReady).cocktail,
-                viewModel::deleteCocktail
+                viewModel::deleteCocktail,
+                viewModel::editCocktail,
             )
         }
+        is CocktailEditing -> CocktailDetailsEditingContent(
+            (uiState as CocktailEditing).cocktail,
+            viewModel::cancelUpdate,
+            viewModel::updateCocktail,
+        )
         is Error -> {
             CocktailDetailsErrorContent((uiState as Error).errorMessage)
         }
@@ -118,6 +125,76 @@ fun CocktailDetailsScreenContent(cocktail: CocktailPresentationModel, deleteCock
                 modifier = Modifier.padding(12.dp)
             ) {
                 Text(text = "Delete", modifier = Modifier.padding(4.dp))
+            }
+        }
+    }
+}
+
+
+@Composable
+fun CocktailDetailsEditingContent(
+    cocktail: CocktailPresentationModel,
+    cancelUpdate: () -> Unit,
+    updateCocktail: (CocktailPresentationModel) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(id = R.color.latte))
+            .wrapContentSize(Alignment.TopStart)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.placeholder_cocktail),
+            contentDescription = stringResource(id = R.string.cocktail_image_description)
+        )
+        Text(
+            text = cocktail.name,
+            color = Color.DarkGray,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            textAlign = TextAlign.Start,
+            fontSize = 22.sp
+        )
+        Text(
+            text = cocktail.category,
+            color = Color.DarkGray,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            textAlign = TextAlign.Start,
+            fontSize = 22.sp
+        )
+        Text(
+            text = cocktail.alcoholic,
+            color = Color.DarkGray,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            textAlign = TextAlign.Start,
+            fontSize = 22.sp
+        )
+        Text(
+            text = "Ingredients:",
+            color = Color.DarkGray,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            textAlign = TextAlign.Start,
+            fontSize = 22.sp
+        )
+        Text(
+            text = "Instructions:",
+            color = Color.DarkGray,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            textAlign = TextAlign.Start,
+            fontSize = 22.sp
+        )
+        Text(
+            text = cocktail.instructions,
+            color = Color.DarkGray,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            textAlign = TextAlign.Start,
+            fontSize = 22.sp
+        )
+        Row {
+            Button(
+                onClick = { cancelUpdate },
+                modifier = Modifier.padding(12.dp)
+            ) {
+                Text(text = "Cancel", modifier = Modifier.padding(4.dp))
             }
         }
     }

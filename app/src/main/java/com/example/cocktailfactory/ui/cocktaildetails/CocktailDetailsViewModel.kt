@@ -6,6 +6,7 @@ import com.example.cocktailfactory.domain.interactors.CocktailInteractor
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailDataReady
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Error
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Loading
+import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailEditing
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,6 +42,13 @@ class CocktailDetailsViewModel @Inject constructor(
             } else {
                 // TODO: Success event
             }
+        }
+    }
+
+    fun cancelUpdate() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val currentState = _uiState.value as CocktailEditing
+            _uiState.emit(CocktailDataReady(currentState.cocktail))
         }
     }
 }
