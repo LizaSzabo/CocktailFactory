@@ -3,8 +3,8 @@ package com.example.cocktailfactory.ui.cocktaildetails
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cocktailfactory.domain.interactors.CocktailInteractor
-import com.example.cocktailfactory.domain.model.CocktailPresentationModel
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailDataReady
+import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Error
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Loading
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,10 +22,14 @@ class CocktailDetailsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<CocktailDetailsUiState>(Loading)
     val uiState: StateFlow<CocktailDetailsUiState> = _uiState.asStateFlow()
 
-    fun getCocktailDetails() {
+    fun getCocktailDetails(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val mockCocktail = CocktailPresentationModel("id", "name", "category", "Alcoholic", "image", mutableListOf(), "instructions")
-            _uiState.emit(CocktailDataReady(mockCocktail))
+            val cocktailWithDetails = cocktailInteractor.getCocktailDetails(id)
+            if (cocktailWithDetails == null) {
+                _uiState.emit(Error("Cocktail not found!"))
+            } else {
+                _uiState.emit(CocktailDataReady(cocktailWithDetails))
+            }
         }
     }
 }

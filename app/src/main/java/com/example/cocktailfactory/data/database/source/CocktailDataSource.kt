@@ -22,7 +22,7 @@ class CocktailDataSource(
         cocktailDao.deleteAllCocktails()
     }
 
-    fun getCocktailFromDb(cocktailId: String): RoomCocktail {
+    fun getCocktailFromDb(cocktailId: String): RoomCocktail? {
         return cocktailDao.getCocktail(cocktailId)
     }
 

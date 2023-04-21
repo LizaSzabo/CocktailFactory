@@ -48,7 +48,7 @@ fun Navigation() {
             arguments = listOf(navArgument("cocktailName") { type = NavType.StringType })
         ) { backStackEntry ->
             backStackEntry.arguments?.getString("cocktailName")?.let { cocktailName ->
-                CocktailDetailsScreen(cocktailName = cocktailName)
+                CocktailDetailsScreen(cocktailId = cocktailName)
             }
         }
     }

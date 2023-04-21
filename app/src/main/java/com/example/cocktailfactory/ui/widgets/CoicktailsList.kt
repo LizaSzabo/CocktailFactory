@@ -14,7 +14,7 @@ fun CocktailsList(navController: NavController, cocktails: ArrayList<CocktailPre
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         items(cocktails) { cocktail ->
             CocktailListItemView(
-                cocktailName = cocktail.name,
+                cocktailId = cocktail.id,
                 onItemClick = { selectedCocktail ->
                     navController.navigate("details/$selectedCocktail") {
                         popUpTo("main") {

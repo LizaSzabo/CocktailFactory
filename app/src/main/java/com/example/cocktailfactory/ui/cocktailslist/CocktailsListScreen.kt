@@ -53,7 +53,7 @@ fun CocktailsListScreenContent(navController: NavController) {
         SearchView(textState)
         CocktailsList(
             navController,
-            arrayListOf(CocktailPresentationModel("id", "name", "category", "Alcoholic", "image", mutableListOf(), "instructions"))
+            arrayListOf(CocktailPresentationModel("14209", "Mocha-Berry", "category", "Alcoholic", "image", mutableListOf(), "instructions"))
         )
     }
 }

@@ -28,12 +28,12 @@ import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Err
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Loading
 
 @Composable
-fun CocktailDetailsScreen(cocktailName: String, viewModel: CocktailDetailsViewModel = hiltViewModel()) {
+fun CocktailDetailsScreen(cocktailId: String, viewModel: CocktailDetailsViewModel = hiltViewModel()) {
     val uiState: CocktailDetailsUiState by viewModel.uiState.collectAsState(Loading)
 
     when (uiState) {
         is Loading -> {
-            viewModel.getCocktailDetails()
+            viewModel.getCocktailDetails(cocktailId)
 
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -44,19 +44,11 @@ fun CocktailDetailsScreen(cocktailName: String, viewModel: CocktailDetailsViewMo
         }
         is CocktailDataReady -> {
             CocktailDetailsScreenContent(
-                CocktailPresentationModel(
-                    "id",
-                    "name",
-                    "category",
-                    "Alcoholic",
-                    "image",
-                    mutableListOf(),
-                    "instructions"
-                )
+                (uiState as CocktailDataReady).cocktail
             )
         }
         is Error -> {
-            CocktailDetailsErrorContent()
+            CocktailDetailsErrorContent((uiState as Error).errorMessage)
         }
     }
 }
@@ -125,6 +117,6 @@ fun DetailsScreenPreview() {
 }
 
 @Composable
-fun CocktailDetailsErrorContent() {
-    Text(text = "Cocktail details error")
+fun CocktailDetailsErrorContent(message: String) {
+    Text(text = message)
 }

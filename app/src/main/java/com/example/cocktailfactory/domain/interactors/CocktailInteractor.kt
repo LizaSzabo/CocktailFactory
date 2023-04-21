@@ -35,5 +35,8 @@ class CocktailInteractor @Inject constructor(
         }
     }
 
-    suspend fun getCocktailDetails(id: String) {}
+    fun getCocktailDetails(id: String): CocktailPresentationModel? {
+        val roomModelCocktail = cocktailDataSource.getCocktailFromDb(id)
+        return roomModelCocktail?.toPresentationModelCocktail()
+    }
 }
