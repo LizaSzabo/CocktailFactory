@@ -1,5 +1,7 @@
-package com.example.cocktailfactory.data.network.api
+package com.example.cocktailfactory.di
 
+import com.example.cocktailfactory.data.network.api.CocktailManagerApi
+import com.example.cocktailfactory.data.network.api.mock.FakeCocktailApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -9,7 +11,7 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [CocktailModule::class]
+    replaces = [CocktailApiModule::class]
 )
 class TestApiModule {
 

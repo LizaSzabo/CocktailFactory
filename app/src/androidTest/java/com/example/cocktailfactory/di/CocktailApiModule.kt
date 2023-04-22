@@ -1,5 +1,6 @@
-package com.example.cocktailfactory.data.network.api
+package com.example.cocktailfactory.di
 
+import com.example.cocktailfactory.data.network.api.CocktailManagerApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -9,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class CocktailModule {
+class CocktailApiModule {
 
     @Singleton
     @Provides
