@@ -6,6 +6,7 @@ import com.example.cocktailfactory.data.network.model.CocktailResponse
 import com.example.cocktailfactory.data.network.model.GetCocktailsResponse
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 interface CocktailManagerApi {
     @GET("random.php")
@@ -13,6 +14,9 @@ interface CocktailManagerApi {
 
     @POST
     suspend fun saveCocktail(cocktailRequest: CocktailRequest): CocktailResponse
+
+    @PUT
+    suspend fun updateCocktail(cocktailRequest: CocktailRequest): CocktailResponse
 
     @Delete
     suspend fun deleteCocktail(id: String): String

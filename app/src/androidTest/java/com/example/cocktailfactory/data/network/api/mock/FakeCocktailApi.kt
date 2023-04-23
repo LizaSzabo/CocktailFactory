@@ -30,6 +30,13 @@ class FakeCocktailApi @Inject constructor(private val gson: Gson) : CocktailMana
         }
     }
 
+    override suspend fun updateCocktail(cocktailRequest: CocktailRequest): CocktailResponse = fakeCall {
+        when (isSuccess) {
+            true -> "fake/put_Cocktail_success.json".getResponse(gson)
+            false -> throw "fake/put_Cocktail_fail.json".getHttpException(gson)
+        }
+    }
+
     override suspend fun deleteCocktail(id: String): String = fakeCall {
         when (isSuccess) {
             true -> "fake/delete_Cocktail_success.json".getResponse(gson)
