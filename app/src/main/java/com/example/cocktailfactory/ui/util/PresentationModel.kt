@@ -4,6 +4,7 @@ import co.zsmb.rainbowcake.withIOContext
 import com.example.cocktailfactory.data.network.util.NetworkError
 import com.example.cocktailfactory.data.network.util.NetworkResponse
 import com.example.cocktailfactory.data.network.util.NetworkResult
+import com.example.cocktailfactory.data.network.util.NetworkUnavailable
 import com.example.cocktailfactory.data.network.util.UnknownHostError
 import kotlinx.coroutines.CoroutineScope
 
@@ -26,6 +27,7 @@ suspend inline fun <NM : Any, PM : Any> makeNetworkCall(
             networkResponse.code
         )
         is UnknownHostError -> PresentationNetworkError(null, null)
+        NetworkUnavailable -> PresentationNetworkError("No internet", null)
     }
 }
 

@@ -1,5 +1,9 @@
 package com.example.cocktailfactory.data.network.util
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import com.example.cocktailfactory.CocktailFactoryApplication.Companion.appContext
 import retrofit2.HttpException
 import java.net.UnknownHostException
 
@@ -12,6 +16,7 @@ class NetworkResult<out T : Any>(val result: T) : NetworkResponse<T>()
 class NetworkError(val errorMessage: String? = null, val code: Int? = null) : NetworkNoResult()
 
 object UnknownHostError : NetworkNoResult()
+object NetworkUnavailable : NetworkNoResult()
 
 /**
  * Executes the given network call and handles the exceptions
@@ -19,6 +24,10 @@ object UnknownHostError : NetworkNoResult()
  */
 @Suppress("BlockingMethodInNonBlockingContext")
 suspend fun <T : Any> apiCall(block: suspend () -> T): NetworkResponse<T> {
+    if (isInternetAvailable().not()) {
+        return NetworkUnavailable
+    }
+
     return try {
         val networkResult = block.invoke()
         NetworkResult(networkResult)
@@ -33,4 +42,17 @@ suspend fun <T : Any> apiCall(block: suspend () -> T): NetworkResponse<T> {
 
 private fun getErrorMessage(httpException: HttpException): String? {
     return httpException.response()?.errorBody()?.string()
+}
+
+private fun isInternetAvailable(): Boolean {
+    val connectivityManager = appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    val network = connectivityManager.activeNetwork ?: return false
+    val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+    return when {
+        activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+        activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+        else -> false
+    }
 }

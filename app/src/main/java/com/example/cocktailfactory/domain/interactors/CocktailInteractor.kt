@@ -6,6 +6,7 @@ import com.example.cocktailfactory.data.network.source.CocktailNetworkDataSource
 import com.example.cocktailfactory.data.network.util.NetworkError
 import com.example.cocktailfactory.data.network.util.NetworkResponse
 import com.example.cocktailfactory.data.network.util.NetworkResult
+import com.example.cocktailfactory.data.network.util.NetworkUnavailable
 import com.example.cocktailfactory.data.network.util.UnknownHostError
 import com.example.cocktailfactory.domain.model.CocktailPresentationModel
 import com.example.cocktailfactory.domain.model.toCocktailPresentationModel
@@ -32,6 +33,7 @@ class CocktailInteractor @Inject constructor(
                 Log.i("allCocktails: ", allPresentationModelCocktails.toString())
                 NetworkResult(allPresentationModelCocktails)
             }
+            NetworkUnavailable -> NetworkError("No internet")
         }
     }
 
