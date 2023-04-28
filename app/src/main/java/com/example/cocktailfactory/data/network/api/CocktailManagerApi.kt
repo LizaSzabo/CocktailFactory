@@ -12,6 +12,7 @@ interface CocktailManagerApi {
     @GET("random.php")
     suspend fun getCocktails(): GetCocktailsResponse
 
+    // Only for mock network api:
     @POST
     suspend fun saveCocktail(cocktailRequest: CocktailRequest): CocktailResponse
 
