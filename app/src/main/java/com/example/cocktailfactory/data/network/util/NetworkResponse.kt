@@ -22,7 +22,6 @@ object NetworkUnavailable : NetworkNoResult()
  * Executes the given network call and handles the exceptions
  * Wraps the results in a [NetworkResponse]
  */
-@Suppress("BlockingMethodInNonBlockingContext")
 suspend fun <T : Any> apiCall(block: suspend () -> T): NetworkResponse<T> {
     if (isInternetAvailable().not()) {
         return NetworkUnavailable

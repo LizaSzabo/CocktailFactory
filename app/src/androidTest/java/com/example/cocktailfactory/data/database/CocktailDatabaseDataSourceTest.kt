@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
-class CocktailEntityReadWriteTest {
+class CocktailDatabaseDataSourceTest {
     private lateinit var cocktailDao: CocktailDao
     private lateinit var db: CocktailDatabase
     private lateinit var cocktailDataSource: CocktailDataSource
