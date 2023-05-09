@@ -25,42 +25,63 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.cocktailfactory.R
 import com.example.cocktailfactory.domain.model.CocktailPresentationModel
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailDataReady
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailEditing
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Error
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Loading
+import com.example.cocktailfactory.ui.widgets.TopBar
 
 @Composable
-fun CocktailDetailsScreen(cocktailId: String, viewModel: CocktailDetailsViewModel = hiltViewModel()) {
+fun CocktailDetailsScreen(cocktailId: String, navController: NavController, viewModel: CocktailDetailsViewModel = hiltViewModel()) {
     val uiState: CocktailDetailsUiState by viewModel.uiState.collectAsState(Loading)
 
     when (uiState) {
         is Loading -> {
             viewModel.getCocktailDetails(cocktailId)
 
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(modifier = Modifier)
+            Column {
+                TopBar("Cocktail", navController)
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(modifier = Modifier)
+                }
             }
         }
+
         is CocktailDataReady -> {
-            CocktailDetailsScreenContent(
-                (uiState as CocktailDataReady).cocktail,
-                viewModel::deleteCocktail,
-                viewModel::editCocktail
-            )
+            val cocktail = (uiState as CocktailDataReady).cocktail
+            Column {
+                TopBar(cocktail.name, navController)
+                CocktailDetailsScreenContent(
+                    cocktail,
+                    viewModel::deleteCocktail,
+                    viewModel::editCocktail
+                )
+            }
         }
-        is CocktailEditing -> CocktailDetailsEditingContent(
-            (uiState as CocktailEditing).cocktail,
-            viewModel::cancelUpdate,
-            viewModel::updateCocktail
-        )
+
+        is CocktailEditing -> {
+            val cocktail = (uiState as CocktailEditing).cocktail
+            Column {
+                TopBar(cocktail.name, navController)
+                CocktailDetailsEditingContent(
+                    cocktail,
+                    viewModel::cancelUpdate,
+                    viewModel::updateCocktail
+                )
+            }
+        }
+
         is Error -> {
-            CocktailDetailsErrorContent((uiState as Error).errorMessage)
+            Column {
+                TopBar("", navController)
+                CocktailDetailsErrorContent((uiState as Error).errorMessage)
+            }
         }
     }
 }

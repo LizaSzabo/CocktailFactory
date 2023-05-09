@@ -16,7 +16,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsScreen
 import com.example.cocktailfactory.ui.cocktailslist.CocktailsListScreen
-import com.example.cocktailfactory.ui.widgets.TopBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,7 +24,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Scaffold(
-                topBar = { TopBar() },
                 backgroundColor = colorResource(id = R.color.background_latte)
             ) { padding ->
                 Box(modifier = Modifier.padding(padding)) {
@@ -48,7 +46,7 @@ fun Navigation() {
             arguments = listOf(navArgument("cocktailName") { type = NavType.StringType })
         ) { backStackEntry ->
             backStackEntry.arguments?.getString("cocktailName")?.let { cocktailName ->
-                CocktailDetailsScreen(cocktailId = cocktailName)
+                CocktailDetailsScreen(cocktailId = cocktailName, navController = navController)
             }
         }
     }
