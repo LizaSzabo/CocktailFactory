@@ -66,4 +66,10 @@ class CocktailDetailsViewModel @Inject constructor(
             _uiState.emit(CocktailEditing(currentState.cocktail))
         }
     }
+
+    fun ingredientsListToString(ingredients: List<String?>): String {
+        var resultString = ""
+        ingredients.forEach { ingredient -> if (!ingredient.isNullOrEmpty()) resultString += "\u2022 $ingredient\n" }
+        return resultString
+    }
 }

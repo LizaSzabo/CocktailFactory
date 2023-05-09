@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
@@ -20,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -60,7 +64,8 @@ fun CocktailDetailsScreen(cocktailId: String, navController: NavController, view
                 CocktailDetailsScreenContent(
                     cocktail,
                     viewModel::deleteCocktail,
-                    viewModel::editCocktail
+                    viewModel::editCocktail,
+                    viewModel::ingredientsListToString
                 )
             }
         }
@@ -87,56 +92,86 @@ fun CocktailDetailsScreen(cocktailId: String, navController: NavController, view
 }
 
 @Composable
-fun CocktailDetailsScreenContent(cocktail: CocktailPresentationModel, deleteCocktail: (String) -> Unit, editCocktail: () -> Unit) {
+fun CocktailDetailsScreenContent(
+    cocktail: CocktailPresentationModel,
+    deleteCocktail: (String) -> Unit,
+    editCocktail: () -> Unit,
+    ingredientsListToString: (List<String?>) -> String
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.latte))
-            .wrapContentSize(Alignment.TopStart)
+            .verticalScroll(rememberScrollState())
     ) {
         Image(
             painter = painterResource(id = R.drawable.placeholder_cocktail),
-            contentDescription = stringResource(id = R.string.cocktail_image_description)
+            contentDescription = stringResource(id = R.string.cocktail_image_description),
+            modifier = Modifier.size(280.dp).align(Alignment.CenterHorizontally)
         )
         Text(
             text = cocktail.name,
             color = Color.DarkGray,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(16.dp, 8.dp, 8.dp, 4.dp),
             textAlign = TextAlign.Start,
-            fontSize = 22.sp
+            fontSize = 28.sp,
+            fontWeight = FontWeight.SemiBold
         )
         Text(
-            text = cocktail.category,
+            text = "Category: " + cocktail.category,
             color = Color.DarkGray,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(horizontal = 16.dp),
             textAlign = TextAlign.Start,
             fontSize = 22.sp
         )
         Text(
             text = cocktail.alcoholic,
             color = Color.DarkGray,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(horizontal = 16.dp),
             textAlign = TextAlign.Start,
             fontSize = 22.sp
         )
         Text(
             text = "Ingredients:",
             color = Color.DarkGray,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+            textAlign = TextAlign.Start,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+        Text(
+            text = ingredientsListToString(cocktail.ingredients),
+            color = Color.DarkGray,
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(horizontal = 16.dp),
             textAlign = TextAlign.Start,
             fontSize = 22.sp
         )
         Text(
             text = "Instructions:",
             color = Color.DarkGray,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(start = 16.dp, end = 16.dp),
             textAlign = TextAlign.Start,
-            fontSize = 22.sp
+            fontSize = 22.sp,
+            fontWeight = FontWeight.SemiBold
         )
         Text(
             text = cocktail.instructions,
             color = Color.DarkGray,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(horizontal = 16.dp),
             textAlign = TextAlign.Start,
             fontSize = 22.sp
         )

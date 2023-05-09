@@ -11,6 +11,6 @@ data class RoomCocktail(
     val category: String,
     val alcoholic: String,
     val image: String,
-    val ingredients: ArrayList<String>,
+    val ingredients: ArrayList<String?>,
     val instructions: String
 )
