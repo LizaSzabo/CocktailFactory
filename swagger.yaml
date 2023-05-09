@@ -1,0 +1,180 @@
+swagger: "2.0"
+info:
+  title: Cocktail Factory 
+  description: The server provides informations about cocktails and detailed instructions for making them.
+  version: 1.0.0
+host: "www.thecocktaildb.com"
+basePath: "/api/json/v1/1"
+schemes:
+- "https"
+tags:
+  - name: cocktail
+    description: information about a random cocktail
+paths:
+  /random.php:
+    get:
+      tags:
+        - cocktail
+      summary: Find a cocktail
+      description: Returns one random cocktail item
+      operationId: findPetsByStatus
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cocktail'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cocktail'
+        '400':
+          description: Invalid status value
+      security:
+        - petstore_auth:
+            - read:cocktails
+  
+components:
+  schemas:
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      xml:
+        name: tag
+    Cocktail:
+      required:
+        - idDrink
+        - photoUrls
+      type: object
+      properties:
+        idDrink:
+          type: string
+          example: "11528"
+        strDrink:
+          type: string
+          example: "Irish Spring"
+        strCategory:
+          type: string
+          example: "Ordinary Drink"
+        strAlcoholic:
+          type: string
+          example: "Alcoholic"
+        strInstructions:
+          type: string
+          example: "Pour all ingredients (except orange slice and cherry) into a collins glass over ice cubes. Garnish with the slice of orange, add the cherry on top, and serve."
+        strDrinkThumb:
+          type: string
+          example: "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/sot8v41504884783.jpg"
+        strIngredient1:
+          type: string
+          example: "Irish whiskey"
+        strIngredient2:
+          type: string
+          example: "Peach brandy"
+        strIngredient3:
+          type: string
+          example: "Orange juice"
+        strIngredient4:
+          type: string
+          example: "Sweet and sour"
+        strIngredient5:
+          type: string
+          example: "Orange"
+        strIngredient6:
+          type: string
+          example: "Cherry"
+        strIngredient7:
+          type: string
+          example: null
+        strIngredient8:
+          type: string
+          example: null
+        strIngredient9:
+          type: string
+          example: null
+        strIngredient10:
+          type: string
+          example: null
+        strIngredient11:
+          type: string
+          example: null
+        strIngredient12:
+          type: string
+          example: null
+        strIngredient13:
+          type: string
+          example: null
+        strIngredient14:
+          type: string
+          example: null
+        strIngredient15:
+          type: string
+          example: null
+        strMeasure1:
+          type: string
+          example: "1 oz "
+        strMeasure2:
+          type: string
+          example: "1\/2 oz "
+        strMeasure3:
+          type: string
+          example: "1 oz "
+        strMeasure4:
+          type: string
+          example: "1 oz "
+        strMeasure5:
+          type: string
+          example: "1 slice "
+        strMeasure6:
+          type: string
+          example: "1 "
+        strMeasure7:
+          type: string
+          example: null
+        strMeasure8:
+          type: string
+          example: null
+        strMeasure9:
+          type: string
+          example: null
+        strMeasure10:
+          type: string
+          example: null
+        strMeasure11:
+          type: string
+          example: null
+        strMeasure12:
+          type: string
+          example: null
+        strMeasure13:
+          type: string
+          example: null
+        strMeasure14:
+          type: string
+          example: null
+        strMeasure15:
+          type: string
+          example: null
+      xml:
+        name: cocktail
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'

@@ -23,6 +23,7 @@ class CocktailsListViewModel @Inject constructor(
 
     fun getCocktails() {
         viewModelScope.launch(Dispatchers.IO) {
+            cocktailInteractor.getCocktails()
             val mockList = arrayListOf(CocktailPresentationModel("id", "name", "category", "Alcoholic", "image", mutableListOf(), "instructions"))
             _uiState.emit(CocktailsListUiState.CocktailsListReady(mockList))
         }

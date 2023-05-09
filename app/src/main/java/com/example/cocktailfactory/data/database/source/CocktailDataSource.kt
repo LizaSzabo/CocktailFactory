@@ -14,15 +14,15 @@ class CocktailDataSource(
         cocktailDao.saveCocktails(roomCocktailsList)
     }
 
-    fun deleteCocktailFromDb(roomCocktail: RoomCocktail) {
-        cocktailDao.deleteCocktail(roomCocktail.id)
+    fun deleteCocktailFromDb(id: String) {
+        cocktailDao.deleteCocktail(id)
     }
 
     fun deleteAllCocktailsFromDb() {
         cocktailDao.deleteAllCocktails()
     }
 
-    fun getCocktailFromDb(cocktailId: String): RoomCocktail {
+    fun getCocktailFromDb(cocktailId: String): RoomCocktail? {
         return cocktailDao.getCocktail(cocktailId)
     }
 

@@ -15,7 +15,7 @@ interface CocktailDao {
     fun saveCocktails(cocktails: Collection<RoomCocktail>)
 
     @Query("SELECT * FROM cocktail WHERE id = :cocktailId")
-    fun getCocktail(cocktailId: String): RoomCocktail
+    fun getCocktail(cocktailId: String): RoomCocktail?
 
     @Query("SELECT * FROM cocktail")
     fun getAllCocktails(): List<RoomCocktail>
