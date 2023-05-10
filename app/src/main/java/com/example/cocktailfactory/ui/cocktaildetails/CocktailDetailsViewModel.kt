@@ -69,7 +69,21 @@ class CocktailDetailsViewModel @Inject constructor(
 
     fun ingredientsListToString(ingredients: List<String?>): String {
         var resultString = ""
-        ingredients.forEach { ingredient -> if (!ingredient.isNullOrEmpty()) resultString += "\u2022 $ingredient\n" }
+        ingredients.forEach { ingredient ->
+            if (!ingredient.isNullOrEmpty()) {
+                resultString += if (ingredient.startsWith("• ")) {
+                    "$ingredient\n"
+                } else {
+                    "\u2022 $ingredient\n"
+                }
+            }
+        }
+        if (resultString.isEmpty()) return "\n"
         return resultString
+    }
+
+    fun ingredientsStringToList(ingredients: String): MutableList<String?> {
+        var resultString = mutableListOf<String>()
+        return ingredients.split("\r?\n|\r".toRegex()).toMutableList()
     }
 }

@@ -23,6 +23,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -86,7 +89,9 @@ fun CocktailDetailsScreen(cocktailId: String, navController: NavController, view
                 CocktailDetailsEditingContent(
                     cocktail,
                     viewModel::cancelUpdate,
-                    viewModel::updateCocktail
+                    viewModel::updateCocktail,
+                    viewModel::ingredientsListToString,
+                    viewModel::ingredientsStringToList
                 )
             }
         }
@@ -223,7 +228,9 @@ fun CocktailDetailsScreenContent(
 fun CocktailDetailsEditingContent(
     cocktail: CocktailPresentationModel,
     cancelUpdate: () -> Unit,
-    updateCocktail: (CocktailPresentationModel) -> Unit
+    updateCocktail: (CocktailPresentationModel) -> Unit,
+    ingredientsListToString: (List<String?>) -> String,
+    ingredientsStringToList: (String) -> MutableList<String?>
 ) {
     Column(
         modifier = Modifier
@@ -231,6 +238,11 @@ fun CocktailDetailsEditingContent(
             .background(colorResource(id = R.color.latte))
             .verticalScroll(rememberScrollState())
     ) {
+        var categoryText by rememberSaveable { mutableStateOf(cocktail.category) }
+        var alcoholicText by rememberSaveable { mutableStateOf(cocktail.alcoholic) }
+        var ingredientsText by rememberSaveable { mutableStateOf(ingredientsListToString(cocktail.ingredients)) }
+        var instructionsText by rememberSaveable { mutableStateOf(cocktail.instructions) }
+
         Image(
             painter = painterResource(id = R.drawable.placeholder_cocktail),
             contentDescription = stringResource(id = R.string.cocktail_image_description),
@@ -260,8 +272,26 @@ fun CocktailDetailsEditingContent(
                 fontSize = 22.sp
             )
             BasicTextField(
-                value = cocktail.category,
-                onValueChange = {},
+                value = categoryText,
+                onValueChange = {
+                    categoryText = it
+                },
+                singleLine = true,
+                textStyle = LocalTextStyle.current.copy(
+                    fontSize = 22.sp
+                )
+            )
+        }
+        Row(
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(horizontal = 16.dp)
+        ) {
+            BasicTextField(
+                value = alcoholicText,
+                onValueChange = {
+                    alcoholicText = it
+                },
                 singleLine = true,
                 textStyle = LocalTextStyle.current.copy(
                     fontSize = 22.sp
@@ -269,57 +299,96 @@ fun CocktailDetailsEditingContent(
             )
         }
         Text(
-            text = cocktail.alcoholic,
-            color = Color.DarkGray,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Start,
-            fontSize = 22.sp
-        )
-        Text(
             text = "Ingredients:",
             color = Color.DarkGray,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp),
             textAlign = TextAlign.Start,
-            fontSize = 22.sp
+            fontSize = 22.sp,
+            fontWeight = FontWeight.SemiBold
         )
+
+        Row(
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(horizontal = 16.dp)
+        ) {
+            BasicTextField(
+                value = ingredientsText,
+                onValueChange = {
+                    ingredientsText = it
+                },
+                maxLines = 15,
+                textStyle = LocalTextStyle.current.copy(
+                    fontSize = 22.sp
+                )
+            )
+        }
         Text(
             text = "Instructions:",
             color = Color.DarkGray,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(horizontal = 16.dp),
             textAlign = TextAlign.Start,
-            fontSize = 22.sp
+            fontSize = 22.sp,
+            fontWeight = FontWeight.SemiBold
         )
-        Text(
-            text = cocktail.instructions,
-            color = Color.DarkGray,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Start,
-            fontSize = 22.sp
+
+        BasicTextField(
+            value = instructionsText,
+            onValueChange = {
+                instructionsText = it
+            },
+            singleLine = false,
+            textStyle = LocalTextStyle.current.copy(
+                fontSize = 22.sp
+            ),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(horizontal = 16.dp)
         )
-        Row {
+        Row(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(vertical = 16.dp)
+        ) {
             Button(
                 onClick = { cancelUpdate() },
-                modifier = Modifier.padding(12.dp)
+                modifier = Modifier
+                    .padding(12.dp)
+                    .width(120.dp)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.dark_latte)),
+                border = BorderStroke(2.dp, Color.Red),
+                shape = RoundedCornerShape(16)
             ) {
-                Text(text = "Cancel", modifier = Modifier.padding(4.dp))
+                Text(text = "CANCEL", modifier = Modifier.padding(4.dp))
             }
             Button(
                 onClick = {
                     updateCocktail(
                         CocktailPresentationModel(
-                            "id",
-                            "name",
-                            "category",
-                            "Alcoholic",
-                            "image",
-                            mutableListOf(),
-                            "instructions"
+                            cocktail.id,
+                            cocktail.name,
+                            categoryText,
+                            alcoholicText,
+                            cocktail.image,
+                            ingredientsStringToList(ingredientsText),
+                            instructionsText
                         )
                     )
                 },
-                modifier = Modifier.padding(12.dp)
+                modifier = Modifier
+                    .padding(12.dp)
+                    .width(120.dp)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.dark_latte)),
+                border = BorderStroke(2.dp, Color.Blue),
+                shape = RoundedCornerShape(16)
             ) {
-                Text(text = "Update", modifier = Modifier.padding(4.dp))
+                Text(text = "UPDATE", modifier = Modifier.padding(4.dp))
             }
         }
     }
