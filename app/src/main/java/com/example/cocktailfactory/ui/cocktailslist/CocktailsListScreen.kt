@@ -12,9 +12,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.cocktailfactory.R
 import com.example.cocktailfactory.domain.model.CocktailPresentationModel
 import com.example.cocktailfactory.ui.cocktailslist.CocktailsListUiState.CocktailsListReady
 import com.example.cocktailfactory.ui.cocktailslist.CocktailsListUiState.Error
@@ -34,12 +36,17 @@ fun CocktailsListScreen(navController: NavController, viewModel: CocktailsListVi
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator(modifier = Modifier)
+                CircularProgressIndicator(
+                    modifier = Modifier,
+                    color = colorResource(id = R.color.dark_latte)
+                )
             }
         }
+
         is CocktailsListReady -> {
             CocktailsListScreenContent(navController)
         }
+
         is Error -> {
             CocktailsListErrorContent()
         }
@@ -53,7 +60,17 @@ fun CocktailsListScreenContent(navController: NavController) {
         SearchView(textState)
         CocktailsList(
             navController,
-            arrayListOf(CocktailPresentationModel("178335", "Mocha-Berry", "category", "Alcoholic", "image", mutableListOf(), "instructions"))
+            arrayListOf(
+                CocktailPresentationModel(
+                    "178335",
+                    "Mocha-Berry",
+                    "category",
+                    "Alcoholic",
+                    "image",
+                    mutableListOf(),
+                    "instructions"
+                )
+            )
         )
     }
 }

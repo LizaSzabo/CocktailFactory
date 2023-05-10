@@ -93,6 +93,9 @@ dependencies {
     implementation "co.zsmb:rainbow-cake-core:$rainbow_cake_version"
 
     ktlint "com.pinterest:ktlint:0.47.1"
+
+    // system bars customization
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
 }
 
 // Allow references to generated code

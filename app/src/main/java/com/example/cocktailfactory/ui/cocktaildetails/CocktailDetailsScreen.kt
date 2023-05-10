@@ -1,17 +1,22 @@
 package com.example.cocktailfactory.ui.cocktaildetails
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -52,7 +57,10 @@ fun CocktailDetailsScreen(cocktailId: String, navController: NavController, view
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(modifier = Modifier)
+                    CircularProgressIndicator(
+                        modifier = Modifier,
+                        color = colorResource(id = R.color.dark_latte)
+                    )
                 }
             }
         }
@@ -107,7 +115,9 @@ fun CocktailDetailsScreenContent(
         Image(
             painter = painterResource(id = R.drawable.placeholder_cocktail),
             contentDescription = stringResource(id = R.string.cocktail_image_description),
-            modifier = Modifier.size(280.dp).align(Alignment.CenterHorizontally)
+            modifier = Modifier
+                .size(280.dp)
+                .align(Alignment.CenterHorizontally)
         )
         Text(
             text = cocktail.name,
@@ -175,18 +185,34 @@ fun CocktailDetailsScreenContent(
             textAlign = TextAlign.Start,
             fontSize = 22.sp
         )
-        Row {
+        Row(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(vertical = 16.dp)
+        ) {
             Button(
                 onClick = { deleteCocktail(cocktail.id) },
-                modifier = Modifier.padding(12.dp)
+                modifier = Modifier
+                    .padding(12.dp)
+                    .width(120.dp)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.dark_latte)),
+                border = BorderStroke(2.dp, Color.Red),
+                shape = RoundedCornerShape(16)
             ) {
-                Text(text = "Delete", modifier = Modifier.padding(4.dp))
+                Text(text = "DELETE", modifier = Modifier.padding(4.dp), fontSize = 18.sp)
             }
             Button(
                 onClick = { editCocktail() },
-                modifier = Modifier.padding(12.dp)
+                modifier = Modifier
+                    .padding(12.dp)
+                    .width(120.dp)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.dark_latte)),
+                border = BorderStroke(2.dp, colorResource(id = R.color.border)),
+                shape = RoundedCornerShape(16)
             ) {
-                Text(text = "Edit", modifier = Modifier.padding(4.dp))
+                Text(text = "EDIT", modifier = Modifier.padding(4.dp), fontSize = 18.sp)
             }
         }
     }
