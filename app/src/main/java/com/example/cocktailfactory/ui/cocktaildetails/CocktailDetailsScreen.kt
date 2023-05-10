@@ -11,13 +11,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -228,26 +229,45 @@ fun CocktailDetailsEditingContent(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.latte))
-            .wrapContentSize(Alignment.TopStart)
+            .verticalScroll(rememberScrollState())
     ) {
         Image(
             painter = painterResource(id = R.drawable.placeholder_cocktail),
-            contentDescription = stringResource(id = R.string.cocktail_image_description)
+            contentDescription = stringResource(id = R.string.cocktail_image_description),
+            modifier = Modifier
+                .size(280.dp)
+                .align(Alignment.CenterHorizontally)
         )
         Text(
             text = cocktail.name,
             color = Color.DarkGray,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(16.dp, 8.dp, 8.dp, 4.dp),
             textAlign = TextAlign.Start,
-            fontSize = 22.sp
+            fontSize = 28.sp,
+            fontWeight = FontWeight.SemiBold
         )
-        Text(
-            text = cocktail.category,
-            color = Color.DarkGray,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Start,
-            fontSize = 22.sp
-        )
+        Row(
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(horizontal = 16.dp)
+        ) {
+            Text(
+                text = "Category: ",
+                color = Color.DarkGray,
+                textAlign = TextAlign.Start,
+                fontSize = 22.sp
+            )
+            BasicTextField(
+                value = cocktail.category,
+                onValueChange = {},
+                singleLine = true,
+                textStyle = LocalTextStyle.current.copy(
+                    fontSize = 22.sp
+                )
+            )
+        }
         Text(
             text = cocktail.alcoholic,
             color = Color.DarkGray,
