@@ -10,4 +10,5 @@
     <color name="latte">#FFECDEBA</color>
     <color name="dark_latte">#CA9358</color>
     <color name="background_latte">#ECAA64</color>
+    <color name="latte_text">#F1DEC9</color>
 </resources>
