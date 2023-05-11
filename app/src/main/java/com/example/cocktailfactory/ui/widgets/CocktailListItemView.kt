@@ -30,21 +30,21 @@ fun CocktailListItemView(cocktail: CocktailPresentationModel, onItemClick: (Stri
         Row(
             modifier = Modifier
                 .clickable(onClick = { onItemClick(cocktail.id) })
-                .background(colorResource(id = R.color.dark_latte))
+                .background(colorResource(id = R.color.orange))
                 .fillMaxWidth()
-                .padding(PaddingValues(12.dp, 12.dp))
+                .padding(PaddingValues(12.dp, 16.dp))
         ) {
             Column(modifier = Modifier.weight(7f)) {
-                Text(text = cocktail.name, fontSize = 22.sp, color = colorResource(id = R.color.latte_text))
-                Text(text = cocktail.category, fontSize = 16.sp, color = colorResource(id = R.color.latte_text))
-                Text(text = cocktail.alcoholic, fontSize = 16.sp, color = colorResource(id = R.color.latte_text))
+                Text(text = cocktail.name, fontSize = 24.sp, color = colorResource(id = R.color.latte_text))
+                Text(text = cocktail.category, fontSize = 18.sp, color = colorResource(id = R.color.latte_text))
+                Text(text = cocktail.alcoholic, fontSize = 18.sp, color = colorResource(id = R.color.latte_text))
             }
-            Column(modifier = Modifier.weight(3f)) {
+            Column(modifier = Modifier.weight(3f).align(Alignment.CenterVertically)) {
                 Image(
                     painter = rememberAsyncImagePainter(cocktail.image),
                     contentDescription = stringResource(id = R.string.cocktail_image_description),
                     modifier = Modifier
-                        .size(80.dp)
+                        .size(96.dp)
                         .align(Alignment.End)
                 )
             }
