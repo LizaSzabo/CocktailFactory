@@ -62,7 +62,9 @@ fun CocktailsListScreenContent(navController: NavController, cocktailsList: List
         SearchView(textState)
         CocktailsList(
             navController,
-            cocktailsList
+            cocktailsList.filter { cocktail ->
+                cocktail.name.uppercase().contains(textState.value.text.uppercase())
+            }
         )
     }
 }
