@@ -30,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -39,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.cocktailfactory.R
 import com.example.cocktailfactory.domain.model.CocktailPresentationModel
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailDataReady
@@ -119,7 +119,7 @@ fun CocktailDetailsScreenContent(
             .verticalScroll(rememberScrollState())
     ) {
         Image(
-            painter = painterResource(id = R.drawable.placeholder_cocktail),
+            painter = rememberAsyncImagePainter(cocktail.image),
             contentDescription = stringResource(id = R.string.cocktail_image_description),
             modifier = Modifier
                 .size(280.dp)
@@ -244,7 +244,7 @@ fun CocktailDetailsEditingContent(
         var instructionsText by rememberSaveable { mutableStateOf(cocktail.instructions) }
 
         Image(
-            painter = painterResource(id = R.drawable.placeholder_cocktail),
+            painter = rememberAsyncImagePainter(cocktail.image),
             contentDescription = stringResource(id = R.string.cocktail_image_description),
             modifier = Modifier
                 .size(280.dp)
