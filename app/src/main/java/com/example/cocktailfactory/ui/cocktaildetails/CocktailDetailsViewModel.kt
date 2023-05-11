@@ -83,7 +83,6 @@ class CocktailDetailsViewModel @Inject constructor(
     }
 
     fun ingredientsStringToList(ingredients: String): MutableList<String?> {
-        var resultString = mutableListOf<String>()
         return ingredients.split("\r?\n|\r".toRegex()).toMutableList()
     }
 }
