@@ -364,7 +364,7 @@ fun CocktailDetailsEditingContent(
                 border = BorderStroke(2.dp, Color.Red),
                 shape = RoundedCornerShape(16)
             ) {
-                Text(text = "CANCEL", modifier = Modifier.padding(4.dp))
+                Text(text = "CANCEL", modifier = Modifier.padding(4.dp), fontSize = 18.sp)
             }
             Button(
                 onClick = {
@@ -388,7 +388,7 @@ fun CocktailDetailsEditingContent(
                 border = BorderStroke(2.dp, Color.Blue),
                 shape = RoundedCornerShape(16)
             ) {
-                Text(text = "UPDATE", modifier = Modifier.padding(4.dp))
+                Text(text = "UPDATE", modifier = Modifier.padding(4.dp), fontSize = 18.sp)
             }
         }
     }
