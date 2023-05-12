@@ -280,6 +280,9 @@ fun CocktailDetailsEditingContent(
                 onValueChange = {
                     categoryText = it
                 },
+                modifier = Modifier
+                    .background(colorResource(id = R.color.edit_light_grey))
+                    .padding(6.dp, 2.dp),
                 singleLine = true,
                 textStyle = LocalTextStyle.current.copy(
                     fontSize = 22.sp
@@ -296,6 +299,9 @@ fun CocktailDetailsEditingContent(
                 onValueChange = {
                     alcoholicText = it
                 },
+                modifier = Modifier
+                    .background(colorResource(id = R.color.edit_light_grey))
+                    .padding(6.dp, 2.dp),
                 singleLine = true,
                 textStyle = LocalTextStyle.current.copy(
                     fontSize = 22.sp
@@ -324,6 +330,9 @@ fun CocktailDetailsEditingContent(
                     ingredientsText = it
                 },
                 maxLines = 15,
+                modifier = Modifier
+                    .background(colorResource(id = R.color.edit_light_grey))
+                    .padding(6.dp, 2.dp),
                 textStyle = LocalTextStyle.current.copy(
                     fontSize = 22.sp
                 )
@@ -340,19 +349,26 @@ fun CocktailDetailsEditingContent(
             fontWeight = FontWeight.SemiBold
         )
 
-        BasicTextField(
-            value = instructionsText,
-            onValueChange = {
-                instructionsText = it
-            },
-            singleLine = false,
-            textStyle = LocalTextStyle.current.copy(
-                fontSize = 22.sp
-            ),
+        Row(
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(horizontal = 16.dp)
-        )
+        ) {
+            BasicTextField(
+                value = instructionsText,
+                onValueChange = {
+                    instructionsText = it
+                },
+                singleLine = false,
+                textStyle = LocalTextStyle.current.copy(
+                    fontSize = 22.sp
+                ),
+                modifier = Modifier
+                    .background(colorResource(id = R.color.edit_light_grey))
+                    .padding(horizontal = 6.dp, vertical = 2.dp)
+            )
+        }
+
         Row(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
