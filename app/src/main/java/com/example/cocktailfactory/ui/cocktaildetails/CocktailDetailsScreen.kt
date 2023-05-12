@@ -102,6 +102,10 @@ fun CocktailDetailsScreen(cocktailId: String, navController: NavController, view
                 CocktailDetailsErrorContent((uiState as Error).errorMessage)
             }
         }
+
+        CocktailDetailsUiState.DeleteSuccessful -> {
+            navController.navigateUp()
+        }
     }
 }
 

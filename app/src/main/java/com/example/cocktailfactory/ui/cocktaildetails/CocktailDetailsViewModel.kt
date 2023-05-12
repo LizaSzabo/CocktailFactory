@@ -6,6 +6,7 @@ import com.example.cocktailfactory.domain.interactors.CocktailInteractor
 import com.example.cocktailfactory.domain.model.CocktailPresentationModel
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailDataReady
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailEditing
+import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.DeleteSuccessful
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Error
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Loading
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +42,7 @@ class CocktailDetailsViewModel @Inject constructor(
             if (!successful) {
                 _uiState.emit(Error("Could not delete cocktail!"))
             } else {
-                // TODO: Success event, navigate back to list
+                _uiState.emit(DeleteSuccessful)
             }
         }
     }
