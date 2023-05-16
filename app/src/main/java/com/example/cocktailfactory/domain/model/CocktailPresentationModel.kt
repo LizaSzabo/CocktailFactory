@@ -9,7 +9,7 @@ data class CocktailPresentationModel(
     val category: String,
     val alcoholic: String,
     val image: String,
-    val ingredients: MutableList<String>,
+    val ingredients: MutableList<String?>,
     val instructions: String
 )
 
@@ -23,8 +23,8 @@ fun CocktailResponse.toCocktailPresentationModel() = CocktailPresentationModel(
     instructions = strInstructions
 )
 
-private fun getConcatenatedListOfIngredients(cocktail: CocktailResponse): MutableList<String> {
-    val listOfIngredients = mutableListOf<String>()
+private fun getConcatenatedListOfIngredients(cocktail: CocktailResponse): MutableList<String?> {
+    val listOfIngredients = mutableListOf<String?>()
     listOfIngredients.add(cocktail.strIngredient1)
     listOfIngredients.add(cocktail.strIngredient2)
     listOfIngredients.add(cocktail.strIngredient3)
@@ -49,7 +49,7 @@ fun CocktailPresentationModel.toCocktailRoomModel() = RoomCocktail(
     category = category,
     alcoholic = alcoholic,
     image = image,
-    ingredients = ingredients as ArrayList<String>,
+    ingredients = ingredients as ArrayList<String?>,
     instructions = instructions
 )
 

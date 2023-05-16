@@ -6,6 +6,7 @@ import com.example.cocktailfactory.domain.interactors.CocktailInteractor
 import com.example.cocktailfactory.domain.model.CocktailPresentationModel
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailDataReady
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.CocktailEditing
+import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.DeleteSuccessful
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Error
 import com.example.cocktailfactory.ui.cocktaildetails.CocktailDetailsUiState.Loading
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +42,7 @@ class CocktailDetailsViewModel @Inject constructor(
             if (!successful) {
                 _uiState.emit(Error("Could not delete cocktail!"))
             } else {
-                // TODO: Success event, navigate back to list
+                _uiState.emit(DeleteSuccessful)
             }
         }
     }
@@ -65,5 +66,24 @@ class CocktailDetailsViewModel @Inject constructor(
             val currentState = _uiState.value as CocktailDataReady
             _uiState.emit(CocktailEditing(currentState.cocktail))
         }
+    }
+
+    fun ingredientsListToString(ingredients: List<String?>): String {
+        var resultString = ""
+        ingredients.forEach { ingredient ->
+            if (!ingredient.isNullOrEmpty()) {
+                resultString += if (ingredient.startsWith("• ")) {
+                    "$ingredient\n"
+                } else {
+                    "\u2022 $ingredient\n"
+                }
+            }
+        }
+        if (resultString.isEmpty()) return "\n"
+        return resultString
+    }
+
+    fun ingredientsStringToList(ingredients: String): MutableList<String?> {
+        return ingredients.split("\r?\n|\r".toRegex()).toMutableList()
     }
 }

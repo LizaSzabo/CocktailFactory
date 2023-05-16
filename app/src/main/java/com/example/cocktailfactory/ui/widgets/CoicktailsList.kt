@@ -10,11 +10,11 @@ import androidx.navigation.NavController
 import com.example.cocktailfactory.domain.model.CocktailPresentationModel
 
 @Composable
-fun CocktailsList(navController: NavController, cocktails: ArrayList<CocktailPresentationModel>) {
+fun CocktailsList(navController: NavController, cocktails: List<CocktailPresentationModel>) {
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         items(cocktails) { cocktail ->
             CocktailListItemView(
-                cocktailId = cocktail.id,
+                cocktail = cocktail,
                 onItemClick = { selectedCocktail ->
                     navController.navigate("details/$selectedCocktail") {
                         popUpTo("main") {

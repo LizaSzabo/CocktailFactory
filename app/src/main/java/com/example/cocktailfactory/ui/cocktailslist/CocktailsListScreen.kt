@@ -12,9 +12,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.cocktailfactory.R
 import com.example.cocktailfactory.domain.model.CocktailPresentationModel
 import com.example.cocktailfactory.ui.cocktailslist.CocktailsListUiState.CocktailsListReady
 import com.example.cocktailfactory.ui.cocktailslist.CocktailsListUiState.Error
@@ -34,31 +38,45 @@ fun CocktailsListScreen(navController: NavController, viewModel: CocktailsListVi
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator(modifier = Modifier)
+                CircularProgressIndicator(
+                    modifier = Modifier,
+                    color = colorResource(id = R.color.dark_latte)
+                )
             }
         }
+
         is CocktailsListReady -> {
-            CocktailsListScreenContent(navController)
+            CocktailsListScreenContent(navController, (uiState as CocktailsListReady).cocktails)
         }
+
         is Error -> {
-            CocktailsListErrorContent()
+            CocktailsListErrorContent((uiState as Error).errorMessage)
         }
     }
 }
 
 @Composable
-fun CocktailsListScreenContent(navController: NavController) {
+fun CocktailsListScreenContent(navController: NavController, cocktailsList: List<CocktailPresentationModel>) {
     val textState = remember { mutableStateOf(TextFieldValue("")) }
     Column {
         SearchView(textState)
         CocktailsList(
             navController,
-            arrayListOf(CocktailPresentationModel("17216", "Mocha-Berry", "category", "Alcoholic", "image", mutableListOf(), "instructions"))
+            cocktailsList.filter { cocktail ->
+                cocktail.name.uppercase().contains(textState.value.text.uppercase())
+            }
         )
     }
 }
 
 @Composable
-fun CocktailsListErrorContent() {
-    Text(text = "Cocktails list error")
+fun CocktailsListErrorContent(errorMessage: String) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Text(
+            text = errorMessage,
+            fontSize = 24.sp,
+            color = Color.Red,
+            modifier = Modifier.align(Alignment.Center)
+        )
+    }
 }
