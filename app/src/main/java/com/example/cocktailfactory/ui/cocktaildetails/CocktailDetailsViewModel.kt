@@ -57,6 +57,7 @@ class CocktailDetailsViewModel @Inject constructor(
     fun cancelUpdate() {
         viewModelScope.launch(Dispatchers.IO) {
             val currentState = _uiState.value as CocktailEditing
+            throw RuntimeException("Test Crash") // Force a crash
             _uiState.emit(CocktailDataReady(currentState.cocktail))
         }
     }
